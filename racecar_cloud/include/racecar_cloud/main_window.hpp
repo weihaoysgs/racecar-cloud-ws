@@ -59,12 +59,20 @@ public Q_SLOTS:
     void pushbuttonStartGetCurrentRvizPointCallback();
     void pushbuttonLoadingGetCurrentRvizPointCallback();
     void pushbuttonUnLoadingGetCurrentRvizPointCallback();
+    void pushbuttonGetFirstRestRvizPointCallback();
+    void pushbuttonGetSecondRestRvizPointCallback();
+    void pushbuttonGoToFirstRestPointCallback();
+    void pushbuttonGoToSecondRestPointCallback();
     void labelShowRacecarImageUpdateCallback();
 private:
 	Ui::MainWindowDesign ui;
+
     cv::Point3d start_point_;
     cv::Point3d loading_point_;
     cv::Point3d unloading_point_;
+    cv::Point3d first_rest_point_;
+    cv::Point3d second_rest_point_;
+
     std::string points_params_yaml_path_;
 	QNode qnode;
 };

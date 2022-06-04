@@ -30,6 +30,9 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
 	ui.tab_manager->setCurrentIndex(0); // ensure the first tab is showing - qt-designer should have this already hardwired, but often loses it (settings?).
     QObject::connect(&qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
 
+
+    ros::init(argc, argv, "racecar_cloud_main_window");
+
 	/*********************
 	** Logging
 	**********************/
@@ -50,13 +53,21 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
 
     connect(ui.pushbuttonUnLoadingGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonUnLoadingGetCurrentRvizPointCallback()));
 
+    connect(ui.pushbuttonFirstRestPointGetRVIPose, SIGNAL(clicked()), this, SLOT(pushbuttonGetFirstRestRvizPointCallback()));
+
+    connect(ui.pushbuttonSecondRestPointGetRVIPose, SIGNAL(clicked()), this, SLOT(pushbuttonGetSecondRestRvizPointCallback()));
+
+    connect(ui.pushButtonGoToFirstRestPoint, SIGNAL(clicked()),this, SLOT(pushbuttonGoToFirstRestPointCallback()));
+    connect(ui.pushButtonGoToSecondRestPoint, SIGNAL(clicked()),this, SLOT(pushbuttonGoToSecondRestPointCallback()));
+//    connect(ui.pushbuttonLoadingGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonLoadingGetCurrentRvizPointCallback()));
+
     /*********************
     ** Auto Start
     **********************/
     if ( ui.checkbox_remember_settings->isChecked() ) {
         on_button_connect_clicked(true);
     }
-    points_params_yaml_path_ = "/home/weihao/qt_ws/src/racecar_cloud/params/points.yaml";
+    points_params_yaml_path_ = "/home/weihao/racecar_cloud_ws/src/racecar_cloud/params/points.yaml";
     initAllPoints(points_params_yaml_path_);
 }
 
@@ -180,6 +191,10 @@ void MainWindow::on_pushButtonGoToStartPoint_clicked(bool check)
 {
     updateCurrentPoints();
     geometry_msgs::PoseStamped pose;
+
+    pose.header.stamp = ros::Time::now();
+    pose.header.frame_id = "map";
+
     pose.pose.position.x = start_point_.x;
     pose.pose.position.y = start_point_.y;
     pose.pose.position.z = 0;
@@ -199,6 +214,10 @@ void MainWindow::on_pushButtonGoToLoadingPoint_clicked(bool check)
 {
     updateCurrentPoints();
     geometry_msgs::PoseStamped pose;
+
+    pose.header.stamp = ros::Time::now();
+    pose.header.frame_id = "map";
+
     pose.pose.position.x = loading_point_.x;
     pose.pose.position.y = loading_point_.y;
     pose.pose.position.z = 0;
@@ -218,6 +237,10 @@ void MainWindow::on_pushButtonGoToUnLoadingPoint_clicked(bool check)
 {
     updateCurrentPoints();
     geometry_msgs::PoseStamped pose;
+
+    pose.header.stamp = ros::Time::now();
+    pose.header.frame_id = "map";
+
     pose.pose.position.x = unloading_point_.x;
     pose.pose.position.y = unloading_point_.y;
     pose.pose.position.z = 0;
@@ -245,12 +268,17 @@ void MainWindow::initAllPoints(const std::string &param_file_path)
     file["start_point"] >> start_point_;
     file["loading_point"] >> loading_point_;
     file["unloading_point"] >> unloading_point_;
+    file["first_rest_point"] >> first_rest_point_;
+    file["second_rest_point"] >> second_rest_point_;
+
 
     file.release();
 
     qDebug() << "Start Point" << start_point_.x << " " << start_point_.y << " " << start_point_.z << endl;
     qDebug() << "Loading Point" << loading_point_.x << " " << loading_point_.y << " " << loading_point_.z << endl;
     qDebug() << "Unloading Point" << unloading_point_.x << " " << unloading_point_.y << " " << unloading_point_.z << endl;
+    qDebug() << "First Rest Point" << first_rest_point_.x << " " << first_rest_point_.y << " " << first_rest_point_.z << endl;
+    qDebug() << "Second Rest Point" << second_rest_point_.x << " " << second_rest_point_.y << " " << second_rest_point_.z << endl;
 
     ui.lineEditStartPointX->setText(QString::number(start_point_.x));
     ui.lineEditStartPointY->setText(QString::number(start_point_.y));
@@ -263,6 +291,14 @@ void MainWindow::initAllPoints(const std::string &param_file_path)
     ui.lineEditUnLoadingPointX->setText(QString::number(unloading_point_.x));
     ui.lineEditUnLoadingPointY->setText(QString::number(unloading_point_.y));
     ui.lineEditUnLoadingPointTheta->setText(QString::number(unloading_point_.z));
+
+    ui.lineEditFirstRestPointX->setText(QString::number(first_rest_point_.x));
+    ui.lineEditFirstRestPointY->setText(QString::number(first_rest_point_.y));
+    ui.lineEditFirstRestPointTheta->setText(QString::number(first_rest_point_.z));
+
+    ui.lineEditSecondRestPointX->setText(QString::number(second_rest_point_.x));
+    ui.lineEditSecondRestPointY->setText(QString::number(second_rest_point_.y));
+    ui.lineEditSecondRestPointTheta->setText(QString::number(unloading_point_.z));
 }
 
 
@@ -276,6 +312,8 @@ void MainWindow::writeCurrentPointsToYAML()
     file << "start_point " << start_point_;
     file << "loading_point " << loading_point_;
     file << "unloading_point " << unloading_point_;
+    file << "first_rest_point " << first_rest_point_;
+    file << "second_rest_point " << second_rest_point_;
 
     file.release();
 
@@ -296,6 +334,14 @@ void MainWindow::updateCurrentPoints()
     unloading_point_.x = ui.lineEditUnLoadingPointX->text().toDouble();
     unloading_point_.y = ui.lineEditUnLoadingPointY->text().toDouble();
     unloading_point_.z = ui.lineEditUnLoadingPointTheta->text().toDouble();
+
+    first_rest_point_.x = ui.lineEditFirstRestPointX->text().toDouble();
+    first_rest_point_.y = ui.lineEditFirstRestPointY->text().toDouble();
+    first_rest_point_.z = ui.lineEditFirstRestPointTheta->text().toDouble();
+
+    second_rest_point_.x = ui.lineEditSecondRestPointX->text().toDouble();
+    second_rest_point_.y = ui.lineEditSecondRestPointX->text().toDouble();
+    second_rest_point_.z = ui.lineEditSecondRestPointX->text().toDouble();
 }
 
 /**
@@ -397,6 +443,82 @@ void MainWindow::labelShowRacecarImageUpdateCallback()
 //    cv::imshow("img",img);
 //    cv::waitKey(1);
 
+}
+
+void MainWindow::pushbuttonGetFirstRestRvizPointCallback()
+{
+    ROS_INFO("First Get");
+    tf2::Matrix3x3 m(tf2::Quaternion(qnode.getRvizSetPose().pose.orientation.x,
+                                     qnode.getRvizSetPose().pose.orientation.y,
+                                     qnode.getRvizSetPose().pose.orientation.z,
+                                     qnode.getRvizSetPose().pose.orientation.w));
+    double roll, pitch, yaw;
+    m.getRPY(roll, pitch, yaw);
+
+    ui.lineEditFirstRestPointX->setText(QString::number(qnode.getRvizSetPose().pose.position.x));
+    ui.lineEditFirstRestPointY->setText(QString::number(qnode.getRvizSetPose().pose.position.y));
+    ui.lineEditFirstRestPointTheta->setText(QString::number(yaw * 180.0/ M_PI));
+}
+
+void MainWindow::pushbuttonGetSecondRestRvizPointCallback()
+{
+    ROS_INFO("Second Get");
+    tf2::Matrix3x3 m(tf2::Quaternion(qnode.getRvizSetPose().pose.orientation.x,
+                                     qnode.getRvizSetPose().pose.orientation.y,
+                                     qnode.getRvizSetPose().pose.orientation.z,
+                                     qnode.getRvizSetPose().pose.orientation.w));
+    double roll, pitch, yaw;
+    m.getRPY(roll, pitch, yaw);
+
+    ui.lineEditSecondRestPointX->setText(QString::number(qnode.getRvizSetPose().pose.position.x));
+    ui.lineEditSecondRestPointY->setText(QString::number(qnode.getRvizSetPose().pose.position.y));
+    ui.lineEditSecondRestPointTheta->setText(QString::number(yaw * 180.0/ M_PI));
+}
+
+void MainWindow::pushbuttonGoToSecondRestPointCallback()
+{
+    updateCurrentPoints();
+    geometry_msgs::PoseStamped pose;
+
+    pose.header.stamp = ros::Time::now();
+    pose.header.frame_id = "map";
+
+    pose.pose.position.x = second_rest_point_.x;
+    pose.pose.position.y = second_rest_point_.y;
+    pose.pose.position.z = 0;
+
+    tf::Quaternion qtn = tf::createQuaternionFromYaw(second_rest_point_.z);
+
+    pose.pose.orientation.w = qtn.w();
+    pose.pose.orientation.x = qtn.x();
+    pose.pose.orientation.y = qtn.y();
+    pose.pose.orientation.z = qtn.z();
+
+    qnode.get_navigation_point_publisher().publish(pose);
+    std::cout << "Start Go To Second Rest Point" << std::endl;
+}
+
+void MainWindow::pushbuttonGoToFirstRestPointCallback()
+{
+    updateCurrentPoints();
+    geometry_msgs::PoseStamped pose;
+
+    pose.header.stamp = ros::Time::now();
+    pose.header.frame_id = "map";
+
+    pose.pose.position.x = first_rest_point_.x;
+    pose.pose.position.y = first_rest_point_.y;
+    pose.pose.position.z = 0;
+
+    tf::Quaternion qtn = tf::createQuaternionFromYaw(first_rest_point_.z);
+
+    pose.pose.orientation.w = qtn.w();
+    pose.pose.orientation.x = qtn.x();
+    pose.pose.orientation.y = qtn.y();
+    pose.pose.orientation.z = qtn.z();
+
+    qnode.get_navigation_point_publisher().publish(pose);
+    std::cout << "Start Go To First Rest Point" << std::endl;
 }
 
 }  // namespace racecar_cloud

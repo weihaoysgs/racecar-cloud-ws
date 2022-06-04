@@ -49,10 +49,10 @@ bool QNode::init() {
 	ros::NodeHandle n;
 	// Add your ros communications here.
 	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
-    navigation_points_publisher_ = n.advertise<geometry_msgs::PoseStamped>("/racecar_cloud/goal", 10);
+    navigation_points_publisher_ = n.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 10);
     rviz_pose_sub_ = n.subscribe("/move_base_simple/goal", 1 , &QNode::getRvizPublishPoseStamped, this);
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
-    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
+//    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
 
 	start();
 	return true;
@@ -70,11 +70,11 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
 	ros::NodeHandle n;
 	// Add your ros communications here.
 	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
-    navigation_points_publisher_ = n.advertise<geometry_msgs::PoseStamped>("/racecar_cloud/goal", 10);
+    navigation_points_publisher_ = n.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 10);
 
     rviz_pose_sub_ = n.subscribe("/move_base_simple/goal", 1 , &QNode::getRvizPublishPoseStamped, this);
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
-    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
+//    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
 
 	start();
 	return true;
