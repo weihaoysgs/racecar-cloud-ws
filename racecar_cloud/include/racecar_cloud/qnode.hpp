@@ -32,6 +32,8 @@
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/opencv.hpp>
+#include <actionlib_msgs/GoalID.h>
+#include <std_msgs/Bool.h>
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -54,6 +56,21 @@ public:
     ros::Publisher& get_navigation_point_publisher()
     {
         return this->navigation_points_publisher_;
+    }
+
+    ros::Publisher& getCancelCurrentNavGoalPublisher()
+    {
+        return cancel_current_nav_goal_pub_;
+    }
+
+    ros::Publisher& getForceRacecarVisionCloseOrOpenPublisher()
+    {
+        return force_racecar_vision_open_or_close_pub_;
+    }
+
+    ros::Publisher& getForceRacecarNavStopOrMovePublisher()
+    {
+        return force_racecar_nav_stop_or_move_pub_;
     }
 
     geometry_msgs::PoseStamped& getRvizSetPose()
@@ -93,7 +110,13 @@ private:
 	int init_argc;
 	char** init_argv;
 	ros::Publisher chatter_publisher;
+    ros::Publisher cancel_current_nav_goal_pub_;
+
+    ros::Publisher force_racecar_nav_stop_or_move_pub_;
+    ros::Publisher force_racecar_vision_open_or_close_pub_;
+
     ros::Publisher navigation_points_publisher_;
+
     ros::Subscriber rviz_pose_sub_;
     ros::Subscriber sub_trafficlight_status_;
     ros::Subscriber sub_racecar_image_;

@@ -21,6 +21,7 @@
 #include <opencv2/opencv.hpp>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
+#include <std_msgs/Bool.h>
 
 namespace racecar_cloud {
 
@@ -64,6 +65,11 @@ public Q_SLOTS:
     void pushbuttonGoToFirstRestPointCallback();
     void pushbuttonGoToSecondRestPointCallback();
     void labelShowRacecarImageUpdateCallback();
+    void pushbuttonCancelCurrentNavGoalCallback();
+    void pushbuttonForceRacecarNavigationStopCallback();
+    void pushbuttonAllowRacecarGetNavigationCmdCallback();
+    void pushbuttonOpenSCornerVisionCallback();
+    void pushbuttonCloseSCornerVisionCallback();
 private:
 	Ui::MainWindowDesign ui;
 

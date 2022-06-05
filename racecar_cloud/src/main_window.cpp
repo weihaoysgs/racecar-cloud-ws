@@ -61,6 +61,11 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     connect(ui.pushButtonGoToSecondRestPoint, SIGNAL(clicked()),this, SLOT(pushbuttonGoToSecondRestPointCallback()));
 //    connect(ui.pushbuttonLoadingGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonLoadingGetCurrentRvizPointCallback()));
 
+    connect(ui.pushButtonCancelCurrentNavGoal, SIGNAL(clicked()),this, SLOT(pushbuttonCancelCurrentNavGoalCallback()));
+    connect(ui.pushButtonForceRacecarNavgationStop, SIGNAL(clicked()),this, SLOT(pushbuttonForceRacecarNavigationStopCallback()));
+    connect(ui.pushButtonAllowRacecarNavigationMove, SIGNAL(clicked()),this, SLOT(pushbuttonAllowRacecarGetNavigationCmdCallback()));
+    connect(ui.pushButtonOpenSCornerVision, SIGNAL(clicked()),this, SLOT(pushbuttonOpenSCornerVisionCallback()));
+    connect(ui.pushButtonCloseSCornerVision, SIGNAL(clicked()),this, SLOT(pushbuttonCloseSCornerVisionCallback()));
     /*********************
     ** Auto Start
     **********************/
@@ -521,5 +526,68 @@ void MainWindow::pushbuttonGoToFirstRestPointCallback()
     std::cout << "Start Go To First Rest Point" << std::endl;
 }
 
+
+void MainWindow::pushbuttonCancelCurrentNavGoalCallback()
+{
+    qnode.log(QNode::Info, std::string("Cancel Current Goal"));
+    actionlib_msgs::GoalID goal_null_;
+    qnode.getCancelCurrentNavGoalPublisher().publish(goal_null_);
+}
+
+// Navigation
+void MainWindow::pushbuttonForceRacecarNavigationStopCallback()
+{
+    qnode.log(QNode::Info, std::string("Force Racecar Navigation Stop"));
+
+    std_msgs::Bool force_nav_stop;
+    force_nav_stop.data = false;
+    qnode.getForceRacecarNavStopOrMovePublisher().publish(force_nav_stop);
+
+    std::cout << "Cancel Current Goal!!!" << std::endl;
+}
+
+// Navigation
+void MainWindow::pushbuttonAllowRacecarGetNavigationCmdCallback()
+{
+    qnode.log(QNode::Info, std::string("Allow Racecar Get Navigation Cmd"));
+
+    std_msgs::Bool allow_nav_move;
+    allow_nav_move.data = true;
+    qnode.getForceRacecarNavStopOrMovePublisher().publish(allow_nav_move);
+
+    std::cout << "Allow Racecar Get Navigation Cmd !!!" << std::endl;
+}
+
+// VISION
+void MainWindow::pushbuttonOpenSCornerVisionCallback()
+{
+    qnode.log(QNode::Info, std::string("Open SCorner Vision"));
+
+    std_msgs::Bool open_vision;
+    open_vision.data = true;
+    qnode.getForceRacecarVisionCloseOrOpenPublisher().publish(open_vision);
+
+    std::cout << "Open SCorner Vision !!!" << std::endl;
+}
+
+// VISION
+void MainWindow::pushbuttonCloseSCornerVisionCallback()
+{
+    qnode.log(QNode::Info, std::string("Close SCorner Vision"));
+
+    std_msgs::Bool close_vision;
+    close_vision.data = false;
+    qnode.getForceRacecarVisionCloseOrOpenPublisher().publish(close_vision);
+
+    std::cout << "Close SCorner Vision !!!" <<std::endl;
+}
+
 }  // namespace racecar_cloud
+
+
+
+
+
+
+
 

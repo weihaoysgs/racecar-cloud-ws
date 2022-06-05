@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>944</width>
-    <height>704</height>
+    <width>1172</width>
+    <height>713</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,8 +40,8 @@
        <attribute name="title">
         <string>Ros Communications</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_14">
+        <item>
          <widget class="QGroupBox" name="groupBox_12">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -59,92 +59,14 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="1" rowspan="2">
+        <item>
          <layout class="QVBoxLayout" name="verticalLayout_21">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_11">
-            <item>
-             <widget class="QLabel" name="label_15">
-              <property name="text">
-               <string>Unloading Point</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
-                <item>
-                 <widget class="QLineEdit" name="lineEditUnLoadingPointX"/>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="lineEditUnLoadingPointY"/>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="lineEditUnLoadingPointTheta"/>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_6">
-                  <item>
-                   <widget class="QPushButton" name="pushbuttonUnLoadingGetCurrentRvizPoint">
-                    <property name="text">
-                     <string>GetCurrentPose</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButtonGoToUnLoadingPoint">
-                    <property name="text">
-                     <string>Go!!!</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_8">
-                <item>
-                 <widget class="QLabel" name="label_10">
-                  <property name="text">
-                   <string>x</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string>y</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_12">
-                  <property name="text">
-                   <string>theta</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_18">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_20">
             <item>
              <widget class="QLabel" name="label_13">
               <property name="text">
-               <string>Start Point</string>
+               <string>Start Point </string>
               </property>
              </widget>
             </item>
@@ -220,6 +142,19 @@
              </layout>
             </item>
            </layout>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -303,9 +238,100 @@
             </item>
            </layout>
           </item>
+          <item>
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_11">
+            <item>
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>Unloading Point</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <widget class="QLineEdit" name="lineEditUnLoadingPointX"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditUnLoadingPointY"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditUnLoadingPointTheta"/>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <item>
+                   <widget class="QPushButton" name="pushbuttonUnLoadingGetCurrentRvizPoint">
+                    <property name="text">
+                     <string>GetCurrentPose</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButtonGoToUnLoadingPoint">
+                    <property name="text">
+                     <string>Go!!!</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QLabel" name="label_10">
+                  <property name="text">
+                   <string>x</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_11">
+                  <property name="text">
+                   <string>y</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_12">
+                  <property name="text">
+                   <string>theta</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_18">
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
          </layout>
         </item>
-        <item row="1" column="0">
+        <item>
          <layout class="QVBoxLayout" name="verticalLayout_13">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -386,6 +412,19 @@
            </layout>
           </item>
           <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <layout class="QVBoxLayout" name="verticalLayout_17">
             <item>
              <widget class="QLabel" name="label_28">
@@ -463,14 +502,100 @@
             </item>
            </layout>
           </item>
+          <item>
+           <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_23">
+            <item>
+             <spacer name="verticalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>15</width>
+                <height>16</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonCancelCurrentNavGoal">
+              <property name="text">
+               <string>Cancel Current Goal</string>
+              </property>
+              <property name="shortcut">
+               <string>Esc</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonWriteCurrentPoints">
+              <property name="text">
+               <string>Write Current Points To YAML</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_22">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_12">
+                <item>
+                 <widget class="QPushButton" name="pushButtonForceRacecarNavgationStop">
+                  <property name="text">
+                   <string>Stop</string>
+                  </property>
+                  <property name="shortcut">
+                   <string>S</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonAllowRacecarNavigationMove">
+                  <property name="text">
+                   <string>Move</string>
+                  </property>
+                  <property name="shortcut">
+                   <string>W</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QPushButton" name="pushButtonOpenSCornerVision">
+                  <property name="text">
+                   <string>Open Vision</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonCloseSCornerVision">
+                  <property name="text">
+                   <string>Close Vision</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
          </layout>
-        </item>
-        <item row="2" column="0" colspan="2">
-         <widget class="QPushButton" name="pushButtonWriteCurrentPoints">
-          <property name="text">
-           <string>Write Current Points To YAML</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
@@ -497,7 +622,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>944</width>
+     <width>1172</width>
      <height>22</height>
     </rect>
    </property>

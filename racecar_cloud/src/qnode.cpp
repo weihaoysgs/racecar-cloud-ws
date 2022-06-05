@@ -53,6 +53,10 @@ bool QNode::init() {
     rviz_pose_sub_ = n.subscribe("/move_base_simple/goal", 1 , &QNode::getRvizPublishPoseStamped, this);
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
 //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
+    cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
+
+    force_racecar_nav_stop_or_move_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_stop_or_move", 1);
+    force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
 
 	start();
 	return true;
@@ -75,6 +79,10 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
     rviz_pose_sub_ = n.subscribe("/move_base_simple/goal", 1 , &QNode::getRvizPublishPoseStamped, this);
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
 //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
+    cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
+
+    force_racecar_nav_stop_or_move_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_stop_or_move", 1);
+    force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
 
 	start();
 	return true;
