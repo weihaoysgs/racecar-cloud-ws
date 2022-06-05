@@ -340,8 +340,8 @@ void MainWindow::updateCurrentPoints()
     first_rest_point_.z = ui.lineEditFirstRestPointTheta->text().toDouble();
 
     second_rest_point_.x = ui.lineEditSecondRestPointX->text().toDouble();
-    second_rest_point_.y = ui.lineEditSecondRestPointX->text().toDouble();
-    second_rest_point_.z = ui.lineEditSecondRestPointX->text().toDouble();
+    second_rest_point_.y = ui.lineEditSecondRestPointY->text().toDouble();
+    second_rest_point_.z = ui.lineEditSecondRestPointTheta->text().toDouble();
 }
 
 /**
