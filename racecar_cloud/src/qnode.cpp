@@ -52,6 +52,7 @@ bool QNode::init() {
     navigation_points_publisher_ = n.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 10);
     rviz_pose_sub_ = n.subscribe("/move_base_simple/goal", 1 , &QNode::getRvizPublishPoseStamped, this);
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
+    sub_aruco_status_ = n.subscribe<visionmsg::arucostatus>("/aruco_status", 1, &QNode::SubArucoStatusCallback, this);
 //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
     cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
 
@@ -78,6 +79,7 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
 
     rviz_pose_sub_ = n.subscribe("/move_base_simple/goal", 1 , &QNode::getRvizPublishPoseStamped, this);
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
+    sub_aruco_status_ = n.subscribe<visionmsg::arucostatus>("/aruco_status", 1, &QNode::SubArucoStatusCallback, this);
 //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
     cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
 
@@ -179,5 +181,12 @@ void QNode::SubRacecarSrcImageCallback(const sensor_msgs::CompressedImage::Const
 
     }
 }
+
+void QNode::SubArucoStatusCallback(const visionmsg::arucostatus::ConstPtr &msg)
+{
+    aruco_status_msg_ = *msg;
+//    std::cout << "get aruco msg" << aruco_status_msg_.have_aruco << " " << aruco_status_msg_.aruco_distance << std::endl;
+}
+
 
 }  // namespace racecar_cloud

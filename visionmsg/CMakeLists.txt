@@ -53,6 +53,7 @@ add_message_files(
   FILES
   roadLine.msg
   trafficlight.msg
+  arucostatus.msg
 )
 
 ## Generate services in the 'srv' folder

@@ -23,6 +23,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include "../include/racecar_cloud/roadLine.h"
 #include "../include/racecar_cloud/trafficlight.h"
+#include "../include/racecar_cloud/arucostatus.h"
 #endif
 #include <string>
 #include <QThread>
@@ -34,6 +35,7 @@
 #include <opencv2/opencv.hpp>
 #include <actionlib_msgs/GoalID.h>
 #include <std_msgs/Bool.h>
+
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -78,6 +80,11 @@ public:
         return this->rviz_set_pose_;
     }
 
+    visionmsg::arucostatus& GetCurrentArucoStatusMsg()
+    {
+        return aruco_status_msg_;
+    }
+
     cv::Mat &getRacecarSrcImage()
     {
         return racecar_src_image_;
@@ -86,6 +93,7 @@ public:
     void getRvizPublishPoseStamped(const geometry_msgs::PoseStamped::ConstPtr &msg);
     void SubTrafficlightCallback(const visionmsg::trafficlight::ConstPtr &trafficlight_msg);
     void SubRacecarSrcImageCallback(const sensor_msgs::CompressedImage::ConstPtr &msg);
+    void SubArucoStatusCallback(const visionmsg::arucostatus::ConstPtr &msg);
 	/*********************
 	** Logging
 	**********************/
@@ -120,7 +128,9 @@ private:
     ros::Subscriber rviz_pose_sub_;
     ros::Subscriber sub_trafficlight_status_;
     ros::Subscriber sub_racecar_image_;
+    ros::Subscriber sub_aruco_status_;
     geometry_msgs::PoseStamped rviz_set_pose_;
+    visionmsg::arucostatus aruco_status_msg_;
     QStringListModel logging_model;
     cv::Mat racecar_src_image_;
 };

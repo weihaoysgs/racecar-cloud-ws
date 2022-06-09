@@ -1,0 +1,2 @@
+int16 have_aruco
+float32 aruco_distance
