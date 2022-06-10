@@ -346,7 +346,7 @@
                  <item>
                   <layout class="QGridLayout" name="gridLayout_5">
                    <item row="3" column="1">
-                    <widget class="QLabel" name="labelPositionTheta_2">
+                    <widget class="QLabel" name="labelShowCurrentPositionTheta">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -360,21 +360,21 @@
                     </widget>
                    </item>
                    <item row="7" column="1">
-                    <widget class="QLabel" name="labelOrientionZ_2">
+                    <widget class="QLabel" name="labelShowCurrentOrientionZ">
                      <property name="text">
                       <string>0</string>
                      </property>
                     </widget>
                    </item>
                    <item row="6" column="1">
-                    <widget class="QLabel" name="labelOrientionY_2">
+                    <widget class="QLabel" name="labelShowCurrentOrientionY">
                      <property name="text">
                       <string>0</string>
                      </property>
                     </widget>
                    </item>
                    <item row="4" column="1">
-                    <widget class="QLabel" name="labelOrientionW_2">
+                    <widget class="QLabel" name="labelShowCurrentOrientionW">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -409,14 +409,14 @@
                     </widget>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QLabel" name="labelPositionY_2">
+                    <widget class="QLabel" name="labelShowCurrentPositionY">
                      <property name="text">
                       <string>0</string>
                      </property>
                     </widget>
                    </item>
                    <item row="5" column="1">
-                    <widget class="QLabel" name="labelOrientionX_2">
+                    <widget class="QLabel" name="labelShowCurrentOrientionX">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -444,14 +444,14 @@
                     </widget>
                    </item>
                    <item row="2" column="1">
-                    <widget class="QLabel" name="labelPositionZ_2">
+                    <widget class="QLabel" name="labelShowCurrentPositionZ">
                      <property name="text">
                       <string>0</string>
                      </property>
                     </widget>
                    </item>
                    <item row="0" column="1">
-                    <widget class="QLabel" name="labelPositionX_2">
+                    <widget class="QLabel" name="labelShowCurrentPositionX">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -465,7 +465,7 @@
               <item>
                <widget class="QGroupBox" name="groupBox_5">
                 <property name="title">
-                 <string>GroupBox</string>
+                 <string>TrafficLight</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_25">
                  <item>
@@ -629,7 +629,7 @@
        <attribute name="title">
         <string>auxiliary</string>
        </attribute>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>220</x>

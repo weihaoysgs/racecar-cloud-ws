@@ -446,7 +446,7 @@ void MainWindow::labelShowRacecarImageUpdateCallback()
     ui.labelShowRacecarImage->setPixmap(QPixmap::fromImage(Qtemp));
     ui.labelShowRacecarImage->resize(Qtemp.size());
     ui.labelShowRacecarImage->show();
-    qnode.log(QNode::Info,std::string("I Receive Image"));
+//    qnode.log(QNode::Info,std::string("I Receive Image"));
 //    cv::imshow("img",img);
 //    cv::waitKey(1);
 
@@ -598,9 +598,9 @@ void MainWindow::qnodeGetArucoStatusMsgCallback()
 {
 //    std::cout << "Have Aruco: " << qnode.GetCurrentArucoStatusMsg().have_aruco << " Dis: "<<
 //                 qnode.GetCurrentArucoStatusMsg().aruco_distance << std::endl;
-    const int16_t RED = 1;
-    const int16_t GREEN = 0;
-    const int16_t UNKNOW = 2;
+    const int16_t RED = 2;
+    const int16_t GREEN = 1;
+    const int16_t UNKNOW = 0;
     visionmsg::arucotrafficlight traffic_light_msg;
     traffic_light_msg.distance = -1.0;
     traffic_light_msg.trafficstatus = UNKNOW; // 2: Unknow, 0 Green, 1 Red
