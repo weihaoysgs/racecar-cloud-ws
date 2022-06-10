@@ -24,6 +24,7 @@
 #include "../include/racecar_cloud/roadLine.h"
 #include "../include/racecar_cloud/trafficlight.h"
 #include "../include/racecar_cloud/arucostatus.h"
+#include "../include/racecar_cloud/arucotrafficlight.h"
 #endif
 #include <string>
 #include <QThread>
@@ -75,6 +76,11 @@ public:
         return force_racecar_nav_stop_or_move_pub_;
     }
 
+    ros::Publisher& getTrafficLightStatusPublisher()
+    {
+        return traffic_light_status_publisher_;
+    }
+
     geometry_msgs::PoseStamped& getRvizSetPose()
     {
         return this->rviz_set_pose_;
@@ -113,6 +119,7 @@ Q_SIGNALS:
     void rosShutdown();
     void rvizGetPose();
     void getRacecarImageSignal();
+    void getArucoStatusSignal();
 
 private:
 	int init_argc;
@@ -124,6 +131,8 @@ private:
     ros::Publisher force_racecar_vision_open_or_close_pub_;
 
     ros::Publisher navigation_points_publisher_;
+
+    ros::Publisher traffic_light_status_publisher_;
 
     ros::Subscriber rviz_pose_sub_;
     ros::Subscriber sub_trafficlight_status_;

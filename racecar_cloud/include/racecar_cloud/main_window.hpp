@@ -70,6 +70,9 @@ public Q_SLOTS:
     void pushbuttonAllowRacecarGetNavigationCmdCallback();
     void pushbuttonOpenSCornerVisionCallback();
     void pushbuttonCloseSCornerVisionCallback();
+    void qnodeGetArucoStatusMsgCallback();
+    void checkBoxRedTrafficLightStateChangedCallback(int state);
+    void checkBoxGreenTrafficLightStateChangedCallback(int state);
 private:
 	Ui::MainWindowDesign ui;
 

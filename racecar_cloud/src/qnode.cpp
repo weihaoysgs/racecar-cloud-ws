@@ -54,8 +54,9 @@ bool QNode::init() {
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
     sub_aruco_status_ = n.subscribe<visionmsg::arucostatus>("/aruco_status", 1, &QNode::SubArucoStatusCallback, this);
 //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
-    cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
 
+    cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
+    traffic_light_status_publisher_ = n.advertise<visionmsg::arucotrafficlight>("traffic_light_status",1);
     force_racecar_nav_stop_or_move_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_stop_or_move", 1);
     force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
 
@@ -81,8 +82,9 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
     sub_aruco_status_ = n.subscribe<visionmsg::arucostatus>("/aruco_status", 1, &QNode::SubArucoStatusCallback, this);
 //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
-    cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
 
+    cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
+    traffic_light_status_publisher_ = n.advertise<visionmsg::arucotrafficlight>("traffic_light_status",1);
     force_racecar_nav_stop_or_move_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_stop_or_move", 1);
     force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
 
@@ -121,9 +123,12 @@ void QNode::log( const LogLevel &level, const std::string &msg) {
 				break;
 		}
 		case(Info) : {
-				ROS_INFO_STREAM(msg);
-				logging_model_msg << "[INFO] [" << ros::Time::now() << "]: " << msg;
-				break;
+//				ROS_INFO_STREAM(msg);
+//				logging_model_msg << "[INFO] [" << ros::Time::now() << "]: " << msg;
+//				break;
+        ROS_INFO_STREAM(msg);
+        logging_model_msg << "[INFO]: " << msg << "\n";
+        break;
 		}
 		case(Warn) : {
 				ROS_WARN_STREAM(msg);
@@ -185,6 +190,7 @@ void QNode::SubRacecarSrcImageCallback(const sensor_msgs::CompressedImage::Const
 void QNode::SubArucoStatusCallback(const visionmsg::arucostatus::ConstPtr &msg)
 {
     aruco_status_msg_ = *msg;
+    Q_EMIT getArucoStatusSignal();
 //    std::cout << "get aruco msg" << aruco_status_msg_.have_aruco << " " << aruco_status_msg_.aruco_distance << std::endl;
 }
 

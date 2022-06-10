@@ -40,23 +40,16 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     ui.dockWidgetContents_2->show();
     ui.dock_status->show();
     QObject::connect(&qnode, SIGNAL(loggingUpdated()), this, SLOT(updateLoggingView()));
-
     QObject::connect(&qnode, SIGNAL(rvizGetPose()), this, SLOT(rvizGetNavigtionPose()));
-
     QObject::connect(&qnode, SIGNAL(getRacecarImageSignal()), this, SLOT(labelShowRacecarImageUpdateCallback()));
+    QObject::connect(&qnode, SIGNAL(getArucoStatusSignal()), this, SLOT(qnodeGetArucoStatusMsgCallback()));
 
     connect(ui.pushButtonWriteCurrentPoints, SIGNAL(clicked()), this, SLOT(writeCurrentPointsToYAML()));
-
     connect(ui.pushbuttonStartGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonStartGetCurrentRvizPointCallback()));
-
     connect(ui.pushbuttonLoadingGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonLoadingGetCurrentRvizPointCallback()));
-
     connect(ui.pushbuttonUnLoadingGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonUnLoadingGetCurrentRvizPointCallback()));
-
     connect(ui.pushbuttonFirstRestPointGetRVIPose, SIGNAL(clicked()), this, SLOT(pushbuttonGetFirstRestRvizPointCallback()));
-
     connect(ui.pushbuttonSecondRestPointGetRVIPose, SIGNAL(clicked()), this, SLOT(pushbuttonGetSecondRestRvizPointCallback()));
-
     connect(ui.pushButtonGoToFirstRestPoint, SIGNAL(clicked()),this, SLOT(pushbuttonGoToFirstRestPointCallback()));
     connect(ui.pushButtonGoToSecondRestPoint, SIGNAL(clicked()),this, SLOT(pushbuttonGoToSecondRestPointCallback()));
 //    connect(ui.pushbuttonLoadingGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonLoadingGetCurrentRvizPointCallback()));
@@ -66,12 +59,17 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     connect(ui.pushButtonAllowRacecarNavigationMove, SIGNAL(clicked()),this, SLOT(pushbuttonAllowRacecarGetNavigationCmdCallback()));
     connect(ui.pushButtonOpenSCornerVision, SIGNAL(clicked()),this, SLOT(pushbuttonOpenSCornerVisionCallback()));
     connect(ui.pushButtonCloseSCornerVision, SIGNAL(clicked()),this, SLOT(pushbuttonCloseSCornerVisionCallback()));
+
+
+    connect(ui.checkBoxRedTrafficLight,SIGNAL(stateChanged(int)),this,SLOT(checkBoxRedTrafficLightStateChangedCallback(int)));
+    connect(ui.checkBoxGreenTrafficLight,SIGNAL(stateChanged(int)),this,SLOT(checkBoxGreenTrafficLightStateChangedCallback(int)));
     /*********************
     ** Auto Start
     **********************/
     if ( ui.checkbox_remember_settings->isChecked() ) {
         on_button_connect_clicked(true);
     }
+     ui.checkBoxRedTrafficLight->setChecked(true);
     points_params_yaml_path_ = "/home/weihao/racecar_cloud_ws/src/racecar_cloud/params/points.yaml";
     initAllPoints(points_params_yaml_path_);
 }
@@ -213,6 +211,7 @@ void MainWindow::on_pushButtonGoToStartPoint_clicked(bool check)
 
     qnode.get_navigation_point_publisher().publish(pose);
     std::cout << "Start Go To Start Point" << std::endl;
+    qnode.log(QNode::Info, std::string("Start Go To Start Point!!!"));
 }
 
 void MainWindow::on_pushButtonGoToLoadingPoint_clicked(bool check)
@@ -236,6 +235,7 @@ void MainWindow::on_pushButtonGoToLoadingPoint_clicked(bool check)
 
     qnode.get_navigation_point_publisher().publish(pose);
     std::cout << "Start Go To Loading Point" << std::endl;
+    qnode.log(QNode::Info, std::string("Start Go To Loading Point!!!"));
 }
 
 void MainWindow::on_pushButtonGoToUnLoadingPoint_clicked(bool check)
@@ -259,6 +259,7 @@ void MainWindow::on_pushButtonGoToUnLoadingPoint_clicked(bool check)
 
     qnode.get_navigation_point_publisher().publish(pose);
     std::cout << "Start Go To UnLoading Point" << std::endl;
+    qnode.log(QNode::Info, std::string("Start Go To UnLoading Point!!!"));
 }
 
 void MainWindow::initAllPoints(const std::string &param_file_path)
@@ -323,6 +324,7 @@ void MainWindow::writeCurrentPointsToYAML()
     file.release();
 
     qDebug() << "Write New YAML File OK!";
+    qnode.log(QNode::Info, std::string("Write New YAML File OK!!"));
 }
 
 void MainWindow::updateCurrentPoints()
@@ -501,6 +503,7 @@ void MainWindow::pushbuttonGoToSecondRestPointCallback()
 
     qnode.get_navigation_point_publisher().publish(pose);
     std::cout << "Start Go To Second Rest Point" << std::endl;
+    qnode.log(QNode::Info, std::string("Start Go To Second Rest Point!!!"));
 }
 
 void MainWindow::pushbuttonGoToFirstRestPointCallback()
@@ -524,6 +527,7 @@ void MainWindow::pushbuttonGoToFirstRestPointCallback()
 
     qnode.get_navigation_point_publisher().publish(pose);
     std::cout << "Start Go To First Rest Point" << std::endl;
+    qnode.log(QNode::Info, std::string("Start Go To First Rest Point!!!"));
 }
 
 
@@ -537,25 +541,32 @@ void MainWindow::pushbuttonCancelCurrentNavGoalCallback()
 // Navigation
 void MainWindow::pushbuttonForceRacecarNavigationStopCallback()
 {
-    qnode.log(QNode::Info, std::string("Force Racecar Navigation Stop"));
+//    qnode.log(QNode::Info, std::string("Force Racecar Navigation Stop"));
 
-    std_msgs::Bool force_nav_stop;
-    force_nav_stop.data = false;
-    qnode.getForceRacecarNavStopOrMovePublisher().publish(force_nav_stop);
+//    std_msgs::Bool force_nav_stop;
+//    force_nav_stop.data = false;
+//    qnode.getForceRacecarNavStopOrMovePublisher().publish(force_nav_stop);
 
-    std::cout << "Cancel Current Goal!!!" << std::endl;
+//    std::cout << "Cancel Current Goal!!!" << std::endl;
+    qnode.log(QNode::Info, std::string("Red Traffic Light. STOP!!!"));
+    ui.checkBoxGreenTrafficLight->setChecked(false);
+    ui.checkBoxRedTrafficLight->setChecked(true);
 }
 
 // Navigation
 void MainWindow::pushbuttonAllowRacecarGetNavigationCmdCallback()
 {
-    qnode.log(QNode::Info, std::string("Allow Racecar Get Navigation Cmd"));
+//    qnode.log(QNode::Info, std::string("Allow Racecar Get Navigation Cmd"));
 
-    std_msgs::Bool allow_nav_move;
-    allow_nav_move.data = true;
-    qnode.getForceRacecarNavStopOrMovePublisher().publish(allow_nav_move);
+//    std_msgs::Bool allow_nav_move;
+//    allow_nav_move.data = true;
+//    qnode.getForceRacecarNavStopOrMovePublisher().publish(allow_nav_move);
 
-    std::cout << "Allow Racecar Get Navigation Cmd !!!" << std::endl;
+//    std::cout << "Allow Racecar Get Navigation Cmd !!!" << std::endl;
+    qnode.log(QNode::Info, std::string("Green Traffic Light. GO!!!"));
+    ui.checkBoxGreenTrafficLight->setChecked(true);
+    ui.checkBoxRedTrafficLight->setChecked(false);
+
 }
 
 // VISION
@@ -580,6 +591,63 @@ void MainWindow::pushbuttonCloseSCornerVisionCallback()
     qnode.getForceRacecarVisionCloseOrOpenPublisher().publish(close_vision);
 
     std::cout << "Close SCorner Vision !!!" <<std::endl;
+}
+
+// Get Aruco Statsu Msg Callback
+void MainWindow::qnodeGetArucoStatusMsgCallback()
+{
+//    std::cout << "Have Aruco: " << qnode.GetCurrentArucoStatusMsg().have_aruco << " Dis: "<<
+//                 qnode.GetCurrentArucoStatusMsg().aruco_distance << std::endl;
+    const int16_t RED = 1;
+    const int16_t GREEN = 0;
+    const int16_t UNKNOW = 2;
+    visionmsg::arucotrafficlight traffic_light_msg;
+    traffic_light_msg.distance = -1.0;
+    traffic_light_msg.trafficstatus = UNKNOW; // 2: Unknow, 0 Green, 1 Red
+    if (qnode.GetCurrentArucoStatusMsg().have_aruco)
+    {
+        float aruco_dis = static_cast<float>(qnode.GetCurrentArucoStatusMsg().aruco_distance);
+        ui.labelShowIfHaveAruco->setText(QString("Have"));
+        ui.labelShowArucoDis->setText(QString::number(static_cast<double>(aruco_dis)));
+        if( ui.checkBoxRedTrafficLight->checkState() == CheckState::Checked)
+        {
+            //std::cout << "Red" << std::endl;
+            traffic_light_msg.distance = aruco_dis;
+            traffic_light_msg.trafficstatus = RED;
+        }
+        else
+        {
+            //std::cout << "Green" << std::endl;
+            traffic_light_msg.distance = aruco_dis;
+            traffic_light_msg.trafficstatus = GREEN;
+        }
+    }
+    else {
+        ui.labelShowIfHaveAruco->setText(QString("Not Have"));
+        ui.labelShowArucoDis->setText(QString::number(0.0));
+    }
+    qnode.getTrafficLightStatusPublisher().publish(traffic_light_msg);
+}
+
+void MainWindow::checkBoxRedTrafficLightStateChangedCallback(int state)
+{
+
+    if (state == CheckState::Checked)
+    {
+
+        ui.checkBoxGreenTrafficLight->setChecked(false);
+
+    }
+}
+
+void MainWindow::checkBoxGreenTrafficLightStateChangedCallback(int state)
+{
+
+    if (state == CheckState::Checked)
+    {
+        ui.checkBoxRedTrafficLight->setChecked(false);
+
+    }
 }
 
 }  // namespace racecar_cloud
