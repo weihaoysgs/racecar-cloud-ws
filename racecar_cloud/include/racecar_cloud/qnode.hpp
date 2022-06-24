@@ -29,6 +29,7 @@
 #include <string>
 #include <QThread>
 #include <QStringListModel>
+#include <QDebug>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/CompressedImage.h>
 #include <cv_bridge/cv_bridge.h>
@@ -36,6 +37,7 @@
 #include <opencv2/opencv.hpp>
 #include <actionlib_msgs/GoalID.h>
 #include <std_msgs/Bool.h>
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
 
 /*****************************************************************************
 ** Namespaces
@@ -96,10 +98,16 @@ public:
         return racecar_src_image_;
     }
 
+    geometry_msgs::PoseWithCovarianceStamped& getRacecarCurrentCartoPose()
+    {
+        return racecar_current_pose_;
+    }
+
     void getRvizPublishPoseStamped(const geometry_msgs::PoseStamped::ConstPtr &msg);
     void SubTrafficlightCallback(const visionmsg::trafficlight::ConstPtr &trafficlight_msg);
     void SubRacecarSrcImageCallback(const sensor_msgs::CompressedImage::ConstPtr &msg);
     void SubArucoStatusCallback(const visionmsg::arucostatus::ConstPtr &msg);
+    void SubRacecarCurrentCartoPose(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg);
 	/*********************
 	** Logging
 	**********************/
@@ -120,6 +128,7 @@ Q_SIGNALS:
     void rvizGetPose();
     void getRacecarImageSignal();
     void getArucoStatusSignal();
+    void getRacecarCurrentCartoPoseSignal();
 
 private:
 	int init_argc;
@@ -138,7 +147,9 @@ private:
     ros::Subscriber sub_trafficlight_status_;
     ros::Subscriber sub_racecar_image_;
     ros::Subscriber sub_aruco_status_;
+    ros::Subscriber sub_racecar_current_carto_pose_;
     geometry_msgs::PoseStamped rviz_set_pose_;
+    geometry_msgs::PoseWithCovarianceStamped racecar_current_pose_;
     visionmsg::arucostatus aruco_status_msg_;
     QStringListModel logging_model;
     cv::Mat racecar_src_image_;

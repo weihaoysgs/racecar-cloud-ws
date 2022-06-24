@@ -65,6 +65,7 @@ public Q_SLOTS:
     void pushbuttonGoToFirstRestPointCallback();
     void pushbuttonGoToSecondRestPointCallback();
     void labelShowRacecarImageUpdateCallback();
+    void labelUpdateRacecarCurrentCartoPose();
     void pushbuttonCancelCurrentNavGoalCallback();
     void pushbuttonForceRacecarNavigationStopCallback();
     void pushbuttonAllowRacecarGetNavigationCmdCallback();

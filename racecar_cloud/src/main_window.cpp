@@ -43,6 +43,8 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     QObject::connect(&qnode, SIGNAL(rvizGetPose()), this, SLOT(rvizGetNavigtionPose()));
     QObject::connect(&qnode, SIGNAL(getRacecarImageSignal()), this, SLOT(labelShowRacecarImageUpdateCallback()));
     QObject::connect(&qnode, SIGNAL(getArucoStatusSignal()), this, SLOT(qnodeGetArucoStatusMsgCallback()));
+    QObject::connect(&qnode, SIGNAL(getRacecarCurrentCartoPoseSignal()), this, SLOT(labelUpdateRacecarCurrentCartoPose()));
+
 
     connect(ui.pushButtonWriteCurrentPoints, SIGNAL(clicked()), this, SLOT(writeCurrentPointsToYAML()));
     connect(ui.pushbuttonStartGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonStartGetCurrentRvizPointCallback()));
@@ -52,7 +54,6 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     connect(ui.pushbuttonSecondRestPointGetRVIPose, SIGNAL(clicked()), this, SLOT(pushbuttonGetSecondRestRvizPointCallback()));
     connect(ui.pushButtonGoToFirstRestPoint, SIGNAL(clicked()),this, SLOT(pushbuttonGoToFirstRestPointCallback()));
     connect(ui.pushButtonGoToSecondRestPoint, SIGNAL(clicked()),this, SLOT(pushbuttonGoToSecondRestPointCallback()));
-//    connect(ui.pushbuttonLoadingGetCurrentRvizPoint, SIGNAL(clicked()), this, SLOT(pushbuttonLoadingGetCurrentRvizPointCallback()));
 
     connect(ui.pushButtonCancelCurrentNavGoal, SIGNAL(clicked()),this, SLOT(pushbuttonCancelCurrentNavGoalCallback()));
     connect(ui.pushButtonForceRacecarNavgationStop, SIGNAL(clicked()),this, SLOT(pushbuttonForceRacecarNavigationStopCallback()));
@@ -70,7 +71,7 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
         on_button_connect_clicked(true);
     }
      ui.checkBoxRedTrafficLight->setChecked(true);
-    points_params_yaml_path_ = "/home/weihao/racecar_cloud_ws/src/racecar_cloud/params/points.yaml";
+    points_params_yaml_path_ = "/home/hll/test_ws/src/racecar-cloud-ws/racecar_cloud/params/points.yaml";
     initAllPoints(points_params_yaml_path_);
 }
 
@@ -648,6 +649,33 @@ void MainWindow::checkBoxGreenTrafficLightStateChangedCallback(int state)
         ui.checkBoxRedTrafficLight->setChecked(false);
 
     }
+}
+
+double GetYawFromPose(const geometry_msgs::Pose &pose, bool is_radian)
+{
+    geometry_msgs::Quaternion qtn_ = pose.orientation;
+    tf2::Quaternion qtn = (tf2::Quaternion(qtn_.x, qtn_.y, qtn_.z, qtn_.w));
+
+    tf2::Matrix3x3 m(qtn);
+    double roll, pitch, yaw;
+    m.getRPY(roll, pitch, yaw); //! 进行转换
+    return is_radian ? yaw : yaw * 180 / M_PI;
+}
+
+void MainWindow::labelUpdateRacecarCurrentCartoPose()
+{
+    geometry_msgs::PoseWithCovarianceStamped pose = qnode.getRacecarCurrentCartoPose();
+    ui.labelShowCurrentPositionX->setNum(pose.pose.pose.position.x);
+    ui.labelShowCurrentPositionY->setNum(pose.pose.pose.position.y);
+    ui.labelShowCurrentPositionZ->setNum(0);
+
+    ui.labelShowCurrentOrientionW->setNum(pose.pose.pose.orientation.w);
+    ui.labelShowCurrentOrientionX->setNum(pose.pose.pose.orientation.x);
+    ui.labelShowCurrentOrientionY->setNum(pose.pose.pose.orientation.y);
+    ui.labelShowCurrentOrientionZ->setNum(pose.pose.pose.orientation.z);
+
+    ui.labelShowCurrentPositionTheta->setNum(GetYawFromPose(pose.pose.pose, false));
+
 }
 
 }  // namespace racecar_cloud

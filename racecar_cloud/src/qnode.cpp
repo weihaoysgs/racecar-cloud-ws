@@ -53,7 +53,8 @@ bool QNode::init() {
     rviz_pose_sub_ = n.subscribe("/move_base_simple/goal", 1 , &QNode::getRvizPublishPoseStamped, this);
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
     sub_aruco_status_ = n.subscribe<visionmsg::arucostatus>("/aruco_status", 1, &QNode::SubArucoStatusCallback, this);
-//    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
+    sub_racecar_current_carto_pose_ = n.subscribe<geometry_msgs::PoseWithCovarianceStamped>("racecar_current_carto_pose",1,&QNode::SubRacecarCurrentCartoPose,this);
+    //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
 
     cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
     traffic_light_status_publisher_ = n.advertise<visionmsg::arucotrafficlight>("traffic_light_status",1);
@@ -81,6 +82,7 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
     rviz_pose_sub_ = n.subscribe("/move_base_simple/goal", 1 , &QNode::getRvizPublishPoseStamped, this);
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
     sub_aruco_status_ = n.subscribe<visionmsg::arucostatus>("/aruco_status", 1, &QNode::SubArucoStatusCallback, this);
+    sub_racecar_current_carto_pose_ = n.subscribe<geometry_msgs::PoseWithCovarianceStamped>("racecar_current_carto_pose",1,&QNode::SubRacecarCurrentCartoPose,this);
 //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
 
     cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
@@ -192,6 +194,14 @@ void QNode::SubArucoStatusCallback(const visionmsg::arucostatus::ConstPtr &msg)
     aruco_status_msg_ = *msg;
     Q_EMIT getArucoStatusSignal();
 //    std::cout << "get aruco msg" << aruco_status_msg_.have_aruco << " " << aruco_status_msg_.aruco_distance << std::endl;
+}
+
+void QNode::SubRacecarCurrentCartoPose(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg)
+{
+    racecar_current_pose_ = *msg;
+//    qDebug() << "x: " << racecar_current_pose_.pose.pose.position.x
+//             << "y: " << racecar_current_pose_.pose.pose.position.y;
+    Q_EMIT getRacecarCurrentCartoPoseSignal();
 }
 
 
