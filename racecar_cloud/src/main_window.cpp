@@ -64,6 +64,14 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
 
     connect(ui.checkBoxRedTrafficLight,SIGNAL(stateChanged(int)),this,SLOT(checkBoxRedTrafficLightStateChangedCallback(int)));
     connect(ui.checkBoxGreenTrafficLight,SIGNAL(stateChanged(int)),this,SLOT(checkBoxGreenTrafficLightStateChangedCallback(int)));
+
+    connect(ui.doubleSpinBoxAckermanVel,SIGNAL(valueChanged(double)),this,SLOT(doubleSpinBoxAckermanVelValueChangedCallback(double)));
+    ui.doubleSpinBoxAckermanVel->setRange(-2.0, 2.0);
+    ui.doubleSpinBoxAckermanVel->setSingleStep(0.05);
+    connect(ui.spinBoxAckermanAngle, SIGNAL(valueChanged(int)),this,SLOT(spinBoxAckermanAngleValueChangedCallback(int)));
+    ui.spinBoxAckermanAngle->setRange(-90, 90);
+    connect(ui.pushButtonSendOnceAckermanCmdVel, SIGNAL(clicked()),this, SLOT(pushButtonSendOnceAckermanCmdVelCallback()));
+
     /*********************
     ** Auto Start
     **********************/
@@ -678,12 +686,32 @@ void MainWindow::labelUpdateRacecarCurrentCartoPose()
 
 }
 
+void MainWindow::doubleSpinBoxAckermanVelValueChangedCallback(double value)
+{
+    std::cout << "Value changde;" << value << std::endl;
+}
+
+void MainWindow::spinBoxAckermanAngleValueChangedCallback(int value)
+{
+    std::cout << "spin: value :" << value << std::endl;
+}
+
+void MainWindow::pushButtonSendOnceAckermanCmdVelCallback()
+{
+    ackermann_msgs::AckermannDrive ack_cmd_msg;
+    float v = 0.0; int angle = 0;
+    try {
+        v = static_cast<float>( ui.doubleSpinBoxAckermanVel->value());
+        angle = ui.spinBoxAckermanAngle->value();
+        ack_cmd_msg.speed = v;
+        ack_cmd_msg.steering_angle = angle;
+    } catch (std::exception &e) {
+        std::cout << e.what();
+    }
+
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+    std::cout << "V: " << ack_cmd_msg.speed << " Angle: " << ack_cmd_msg.steering_angle << std::endl;
+}
+
 }  // namespace racecar_cloud
-
-
-
-
-
-
-
 

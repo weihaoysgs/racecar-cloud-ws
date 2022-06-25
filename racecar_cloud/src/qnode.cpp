@@ -60,6 +60,7 @@ bool QNode::init() {
     traffic_light_status_publisher_ = n.advertise<visionmsg::arucotrafficlight>("traffic_light_status",1);
     force_racecar_nav_stop_or_move_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_stop_or_move", 1);
     force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
+    ackerman_cmd_vel_pub_ = n.advertise<ackermann_msgs::AckermannDrive>("hll_nav_ackermann_cmd",1);
 
 	start();
 	return true;
@@ -89,6 +90,7 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
     traffic_light_status_publisher_ = n.advertise<visionmsg::arucotrafficlight>("traffic_light_status",1);
     force_racecar_nav_stop_or_move_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_stop_or_move", 1);
     force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
+    ackerman_cmd_vel_pub_ = n.advertise<ackermann_msgs::AckermannDrive>("hll_nav_ackermann_cmd",1);
 
 	start();
 	return true;

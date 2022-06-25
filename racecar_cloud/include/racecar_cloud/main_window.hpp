@@ -74,6 +74,12 @@ public Q_SLOTS:
     void qnodeGetArucoStatusMsgCallback();
     void checkBoxRedTrafficLightStateChangedCallback(int state);
     void checkBoxGreenTrafficLightStateChangedCallback(int state);
+    void doubleSpinBoxAckermanVelValueChangedCallback(double value);
+    void spinBoxAckermanAngleValueChangedCallback(int value);
+    void pushButtonSendOnceAckermanCmdVelCallback();
+private slots:
+
+
 private:
 	Ui::MainWindowDesign ui;
 
