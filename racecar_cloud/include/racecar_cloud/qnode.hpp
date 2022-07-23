@@ -98,6 +98,11 @@ public:
         return ackerman_cmd_vel_pub_;
     }
 
+    ros::Publisher& getCloseSelfNavigationPublisher()
+    {
+        return close_self_nav_pub_;
+    }
+
     void getRvizPublishPoseStamped(const geometry_msgs::PoseStamped::ConstPtr &msg);
     void SubTrafficlightCallback(const visionmsg::trafficlight::ConstPtr &trafficlight_msg);
     void SubRacecarSrcImageCallback(const sensor_msgs::CompressedImage::ConstPtr &msg);
@@ -137,6 +142,8 @@ private:
     ros::Publisher navigation_points_publisher_;
     ros::Publisher ackerman_cmd_vel_pub_;
     ros::Publisher traffic_light_status_publisher_;
+
+    ros::Publisher close_self_nav_pub_;
 
     ros::Subscriber rviz_pose_sub_;
     ros::Subscriber sub_trafficlight_status_;

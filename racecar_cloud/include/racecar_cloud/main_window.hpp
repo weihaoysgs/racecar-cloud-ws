@@ -22,6 +22,7 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <std_msgs/Bool.h>
+#include <ackermann_msgs/AckermannDrive.h>
 
 namespace racecar_cloud {
 
@@ -77,6 +78,11 @@ public Q_SLOTS:
     void doubleSpinBoxAckermanVelValueChangedCallback(double value);
     void spinBoxAckermanAngleValueChangedCallback(int value);
     void pushButtonSendOnceAckermanCmdVelCallback();
+    void pushButtonSendAckermanCmd_W_Callback();
+    void pushButtonSendAckermanCmd_A_Callback();
+    void pushButtonSendAckermanCmd_S_Callback();
+    void pushButtonSendAckermanCmd_D_Callback();
+    void pushButtonSendAckermanCmd_STOP_Callback();
 private slots:
 
 

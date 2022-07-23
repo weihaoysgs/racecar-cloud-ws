@@ -54,14 +54,14 @@ bool QNode::init() {
     sub_trafficlight_status_ = n.subscribe<visionmsg::trafficlight>("trafficLight", 1, &QNode::SubTrafficlightCallback,this);
     sub_aruco_status_ = n.subscribe<visionmsg::arucostatus>("/aruco_status", 1, &QNode::SubArucoStatusCallback, this);
     sub_racecar_current_carto_pose_ = n.subscribe<geometry_msgs::PoseWithCovarianceStamped>("racecar_current_carto_pose",1,&QNode::SubRacecarCurrentCartoPose,this);
-    //    sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
+//        sub_racecar_image_ = n.subscribe<sensor_msgs::CompressedImage>("/image_view/image_raw/compressed",1,&QNode::SubRacecarSrcImageCallback,this);
 
     cancel_current_nav_goal_pub_ = n.advertise<actionlib_msgs::GoalID>("move_base/cancel", 1 );
     traffic_light_status_publisher_ = n.advertise<visionmsg::arucotrafficlight>("traffic_light_status",1);
     force_racecar_nav_stop_or_move_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_stop_or_move", 1);
     force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
     ackerman_cmd_vel_pub_ = n.advertise<ackermann_msgs::AckermannDrive>("hll_nav_ackermann_cmd",1);
-
+    close_self_nav_pub_ = n.advertise<std_msgs::Bool>("hll_cancel_self_nav_goal", 1);
 	start();
 	return true;
 }
@@ -70,7 +70,8 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
 	std::map<std::string,std::string> remappings;
 	remappings["__master"] = master_url;
 	remappings["__hostname"] = host_url;
-	ros::init(remappings,"racecar_cloud");
+    ros::init(init_argc,init_argv,"racecar_cloud");
+//	ros::init(remappings,"racecar_cloud");
 	if ( ! ros::master::check() ) {
 		return false;
 	}
@@ -91,7 +92,7 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
     force_racecar_nav_stop_or_move_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_stop_or_move", 1);
     force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
     ackerman_cmd_vel_pub_ = n.advertise<ackermann_msgs::AckermannDrive>("hll_nav_ackermann_cmd",1);
-
+    close_self_nav_pub_ = n.advertise<std_msgs::Bool>("hll_cancel_self_nav_goal", 1);
 	start();
 	return true;
 }
@@ -180,6 +181,7 @@ void QNode::SubRacecarSrcImageCallback(const sensor_msgs::CompressedImage::Const
         cv_bridge::CvImagePtr cv_ptr_image_compressed = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
 
         racecar_src_image_ = cv_ptr_image_compressed->image;
+        cv::resize(racecar_src_image_,racecar_src_image_,cv::Size(1920,1080));
 //        cv::imshow("racecar_image",racecar_src_image_);
 //        cv::waitKey(1);
         Q_EMIT getRacecarImageSignal();

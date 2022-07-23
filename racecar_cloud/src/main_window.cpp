@@ -22,7 +22,7 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
 	ui.setupUi(this); // Calling this incidentally connects all ui's triggers to on_...() callbacks in this class.
     QObject::connect(ui.actionAbout_Qt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt())); // qApp is a global variable for the application
 
-    ReadSettings();
+    //ReadSettings();
 	setWindowIcon(QIcon(":/images/icon.png"));
 
     this->setWindowTitle("2022 Racecar Upper Machine");
@@ -61,6 +61,11 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     connect(ui.pushButtonOpenSCornerVision, SIGNAL(clicked()),this, SLOT(pushbuttonOpenSCornerVisionCallback()));
     connect(ui.pushButtonCloseSCornerVision, SIGNAL(clicked()),this, SLOT(pushbuttonCloseSCornerVisionCallback()));
 
+    connect(ui.pushButtonW, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_W_Callback()));
+    connect(ui.pushButtonA, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_A_Callback()));
+    connect(ui.pushButtonS, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_S_Callback()));
+    connect(ui.pushButtonD, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_D_Callback()));
+    connect(ui.pushButtonSTOP, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_STOP_Callback()));
 
     connect(ui.checkBoxRedTrafficLight,SIGNAL(stateChanged(int)),this,SLOT(checkBoxRedTrafficLightStateChangedCallback(int)));
     connect(ui.checkBoxGreenTrafficLight,SIGNAL(stateChanged(int)),this,SLOT(checkBoxGreenTrafficLightStateChangedCallback(int)));
@@ -545,6 +550,9 @@ void MainWindow::pushbuttonCancelCurrentNavGoalCallback()
     qnode.log(QNode::Info, std::string("Cancel Current Goal"));
     actionlib_msgs::GoalID goal_null_;
     qnode.getCancelCurrentNavGoalPublisher().publish(goal_null_);
+    std_msgs::Bool cancel_goal;
+    cancel_goal.data = true;
+    qnode.getCloseSelfNavigationPublisher().publish(cancel_goal);
 }
 
 // Navigation
@@ -711,6 +719,47 @@ void MainWindow::pushButtonSendOnceAckermanCmdVelCallback()
 
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "V: " << ack_cmd_msg.speed << " Angle: " << ack_cmd_msg.steering_angle << std::endl;
+}
+
+void MainWindow::pushButtonSendAckermanCmd_W_Callback()
+{
+    ackermann_msgs::AckermannDrive ack_cmd_msg;
+    ack_cmd_msg.speed = 1.0;
+    ack_cmd_msg.steering_angle = 0.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+    std::cout << "Move W!" << std::endl;
+}
+void MainWindow::pushButtonSendAckermanCmd_A_Callback()
+{
+    ackermann_msgs::AckermannDrive ack_cmd_msg;
+    ack_cmd_msg.speed = 1.0;
+    ack_cmd_msg.steering_angle = 60.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+    std::cout << "Move A!" << std::endl;
+}
+void MainWindow::pushButtonSendAckermanCmd_S_Callback()
+{
+    ackermann_msgs::AckermannDrive ack_cmd_msg;
+    ack_cmd_msg.speed = -1.0;
+    ack_cmd_msg.steering_angle = 0.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+    std::cout << "Move S!" << std::endl;
+}
+void MainWindow::pushButtonSendAckermanCmd_D_Callback()
+{
+    ackermann_msgs::AckermannDrive ack_cmd_msg;
+    ack_cmd_msg.speed = 1.0;
+    ack_cmd_msg.steering_angle = -60.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+    std::cout << "Move D!" << std::endl;
+}
+void MainWindow::pushButtonSendAckermanCmd_STOP_Callback()
+{
+    ackermann_msgs::AckermannDrive ack_cmd_msg;
+    ack_cmd_msg.speed = 0.0;
+    ack_cmd_msg.steering_angle = 0.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+    std::cout << "STOP!" << std::endl;
 }
 
 }  // namespace racecar_cloud
