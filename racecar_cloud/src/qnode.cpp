@@ -62,6 +62,7 @@ bool QNode::init() {
     force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
     ackerman_cmd_vel_pub_ = n.advertise<ackermann_msgs::AckermannDrive>("hll_nav_ackermann_cmd",1);
     close_self_nav_pub_ = n.advertise<std_msgs::Bool>("hll_cancel_self_nav_goal", 1);
+    is_naving_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_close_or_open", 1);
 	start();
 	return true;
 }
@@ -93,6 +94,7 @@ bool QNode::init(const std::string &master_url, const std::string &host_url) {
     force_racecar_vision_open_or_close_pub_ = n.advertise<std_msgs::Bool>("force_racecar_vision_close_or_open", 1);
     ackerman_cmd_vel_pub_ = n.advertise<ackermann_msgs::AckermannDrive>("hll_nav_ackermann_cmd",1);
     close_self_nav_pub_ = n.advertise<std_msgs::Bool>("hll_cancel_self_nav_goal", 1);
+    is_naving_pub_ = n.advertise<std_msgs::Bool>("force_racecar_nav_close_or_open", 1);
 	start();
 	return true;
 }

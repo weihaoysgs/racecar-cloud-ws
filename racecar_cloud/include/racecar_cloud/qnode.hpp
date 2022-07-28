@@ -103,6 +103,11 @@ public:
         return close_self_nav_pub_;
     }
 
+    ros::Publisher& getIsUsingNavigationPublisher()
+    {
+        return is_naving_pub_;
+    }
+
     void getRvizPublishPoseStamped(const geometry_msgs::PoseStamped::ConstPtr &msg);
     void SubTrafficlightCallback(const visionmsg::trafficlight::ConstPtr &trafficlight_msg);
     void SubRacecarSrcImageCallback(const sensor_msgs::CompressedImage::ConstPtr &msg);
@@ -144,6 +149,7 @@ private:
     ros::Publisher traffic_light_status_publisher_;
 
     ros::Publisher close_self_nav_pub_;
+    ros::Publisher is_naving_pub_;
 
     ros::Subscriber rviz_pose_sub_;
     ros::Subscriber sub_trafficlight_status_;

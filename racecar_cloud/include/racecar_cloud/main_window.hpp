@@ -23,6 +23,7 @@
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <std_msgs/Bool.h>
 #include <ackermann_msgs/AckermannDrive.h>
+#include <QThread>
 
 namespace racecar_cloud {
 
@@ -82,6 +83,9 @@ public Q_SLOTS:
     void pushButtonSendAckermanCmd_A_Callback();
     void pushButtonSendAckermanCmd_S_Callback();
     void pushButtonSendAckermanCmd_D_Callback();
+    void pushButtonSendAckermanCmd_Z_Callback();
+    void pushButtonSendAckermanCmd_C_Callback();
+    void pushButtonSendAckermanCmd_CTRL_Callback();
     void pushButtonSendAckermanCmd_STOP_Callback();
 private slots:
 

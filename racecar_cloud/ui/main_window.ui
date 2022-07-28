@@ -527,87 +527,127 @@
               </layout>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_28">
-               <item>
-                <layout class="QGridLayout" name="gridLayout_7">
-                 <item row="0" column="0">
-                  <spacer name="horizontalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>148</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QPushButton" name="pushButtonW">
-                   <property name="minimumSize">
-                    <size>
-                     <width>181</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>W</string>
-                   </property>
-                   <property name="shortcut">
-                    <string>W</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <spacer name="horizontalSpacer_3">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>148</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QPushButton" name="pushButtonA">
-                   <property name="text">
-                    <string>A</string>
-                   </property>
-                   <property name="shortcut">
-                    <string>A</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QPushButton" name="pushButtonS">
-                   <property name="text">
-                    <string>S</string>
-                   </property>
-                   <property name="shortcut">
-                    <string>S</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QPushButton" name="pushButtonD">
-                   <property name="text">
-                    <string>D</string>
-                   </property>
-                   <property name="shortcut">
-                    <string>D</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+              <layout class="QGridLayout" name="gridLayout_7">
+               <item row="0" column="1">
+                <widget class="QPushButton" name="pushButtonW">
+                 <property name="minimumSize">
+                  <size>
+                   <width>181</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>W</string>
+                 </property>
+                 <property name="shortcut">
+                  <string>W</string>
+                 </property>
+                </widget>
                </item>
+               <item row="0" column="2">
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>148</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="1">
+                <widget class="QPushButton" name="pushButtonS">
+                 <property name="text">
+                  <string>S</string>
+                 </property>
+                 <property name="shortcut">
+                  <string>S</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QPushButton" name="pushButtonA">
+                 <property name="text">
+                  <string>A</string>
+                 </property>
+                 <property name="shortcut">
+                  <string>A</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>148</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="2">
+                <widget class="QPushButton" name="pushButtonD">
+                 <property name="text">
+                  <string>D</string>
+                 </property>
+                 <property name="shortcut">
+                  <string>D</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QPushButton" name="pushButtonZ">
+                 <property name="text">
+                  <string>Z</string>
+                 </property>
+                 <property name="shortcut">
+                  <string>Z</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="2" column="2">
+                <widget class="QPushButton" name="pushButtonC">
+                 <property name="text">
+                  <string>C</string>
+                 </property>
+                 <property name="shortcut">
+                  <string>C</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_28">
                <item>
                 <widget class="QPushButton" name="pushButtonSTOP">
                  <property name="text">
                   <string>Stop</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonCtrl">
+                 <property name="text">
+                  <string>Space</string>
                  </property>
                  <property name="shortcut">
                   <string>Space</string>

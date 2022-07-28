@@ -65,6 +65,9 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     connect(ui.pushButtonA, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_A_Callback()));
     connect(ui.pushButtonS, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_S_Callback()));
     connect(ui.pushButtonD, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_D_Callback()));
+    connect(ui.pushButtonZ, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_Z_Callback()));
+    connect(ui.pushButtonC, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_C_Callback()));
+    connect(ui.pushButtonCtrl, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_CTRL_Callback()));
     connect(ui.pushButtonSTOP, SIGNAL(clicked()),this, SLOT(pushButtonSendAckermanCmd_STOP_Callback()));
 
     connect(ui.checkBoxRedTrafficLight,SIGNAL(stateChanged(int)),this,SLOT(checkBoxRedTrafficLightStateChangedCallback(int)));
@@ -724,7 +727,7 @@ void MainWindow::pushButtonSendOnceAckermanCmdVelCallback()
 void MainWindow::pushButtonSendAckermanCmd_W_Callback()
 {
     ackermann_msgs::AckermannDrive ack_cmd_msg;
-    ack_cmd_msg.speed = 1.0;
+    ack_cmd_msg.speed = static_cast<float>(0.80) ;
     ack_cmd_msg.steering_angle = 0.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "Move W!" << std::endl;
@@ -732,7 +735,7 @@ void MainWindow::pushButtonSendAckermanCmd_W_Callback()
 void MainWindow::pushButtonSendAckermanCmd_A_Callback()
 {
     ackermann_msgs::AckermannDrive ack_cmd_msg;
-    ack_cmd_msg.speed = 1.0;
+    ack_cmd_msg.speed = static_cast<float>(0.80);
     ack_cmd_msg.steering_angle = 60.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "Move A!" << std::endl;
@@ -740,7 +743,7 @@ void MainWindow::pushButtonSendAckermanCmd_A_Callback()
 void MainWindow::pushButtonSendAckermanCmd_S_Callback()
 {
     ackermann_msgs::AckermannDrive ack_cmd_msg;
-    ack_cmd_msg.speed = -1.0;
+    ack_cmd_msg.speed = static_cast<float>(-0.80);
     ack_cmd_msg.steering_angle = 0.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "Move S!" << std::endl;
@@ -748,7 +751,7 @@ void MainWindow::pushButtonSendAckermanCmd_S_Callback()
 void MainWindow::pushButtonSendAckermanCmd_D_Callback()
 {
     ackermann_msgs::AckermannDrive ack_cmd_msg;
-    ack_cmd_msg.speed = 1.0;
+    ack_cmd_msg.speed = static_cast<float>(0.80);
     ack_cmd_msg.steering_angle = -60.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "Move D!" << std::endl;
@@ -760,6 +763,43 @@ void MainWindow::pushButtonSendAckermanCmd_STOP_Callback()
     ack_cmd_msg.steering_angle = 0.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "STOP!" << std::endl;
+}
+
+
+void MainWindow::pushButtonSendAckermanCmd_Z_Callback()
+{
+    // 向右转角度为负数 向左转角度为正数
+    ackermann_msgs::AckermannDrive ack_cmd_msg;
+    ack_cmd_msg.speed = static_cast<float>(-0.6);
+    ack_cmd_msg.steering_angle = 60.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+    std::cout << "Z!" << std::endl;
+    QThread::msleep(500);
+    ack_cmd_msg.speed = static_cast<float>(0.8);
+    ack_cmd_msg.steering_angle = -70.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+}
+void MainWindow::pushButtonSendAckermanCmd_C_Callback()
+{
+    ackermann_msgs::AckermannDrive ack_cmd_msg;
+    ack_cmd_msg.speed = static_cast<float>(-0.6);
+    ack_cmd_msg.steering_angle = -60.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+    std::cout << "Z!" << std::endl;
+    QThread::msleep(500);
+    ack_cmd_msg.speed = static_cast<float>(0.8);
+    ack_cmd_msg.steering_angle = 70.0;
+    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+}
+void MainWindow::pushButtonSendAckermanCmd_CTRL_Callback()
+{
+    static bool using_nav = false;
+    std_msgs::Bool using_nav_msg;
+    using_nav_msg.data = using_nav;
+    using_nav = !using_nav;
+    qnode.getIsUsingNavigationPublisher().publish(using_nav_msg);
+    qnode.log(QNode::Info, std::string("Using Nav: ") + std::to_string(using_nav));
+    ROS_INFO_STREAM("ROS Using Nav: " << using_nav);
 }
 
 }  // namespace racecar_cloud
