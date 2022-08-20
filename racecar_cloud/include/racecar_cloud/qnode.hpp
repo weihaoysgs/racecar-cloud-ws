@@ -45,40 +45,42 @@
 ** Namespaces
 *****************************************************************************/
 
-namespace racecar_cloud {
+namespace racecar_cloud
+{
 
 /*****************************************************************************
 ** Class
 *****************************************************************************/
 
-class QNode : public QThread {
+class QNode : public QThread
+{
     Q_OBJECT
 public:
-	QNode(int argc, char** argv );
-	virtual ~QNode();
-	bool init();
-	bool init(const std::string &master_url, const std::string &host_url);
-	void run();
+    QNode(int argc, char **argv);
+    virtual ~QNode();
+    bool init();
+    bool init(const std::string &master_url, const std::string &host_url);
+    void run();
 
-    ros::Publisher& get_navigation_point_publisher() { return this->navigation_points_publisher_; }
+    ros::Publisher &get_navigation_point_publisher() { return this->navigation_points_publisher_; }
 
-    ros::Publisher& getCancelCurrentNavGoalPublisher() { return cancel_current_nav_goal_pub_; }
+    ros::Publisher &getCancelCurrentNavGoalPublisher() { return cancel_current_nav_goal_pub_; }
 
-    ros::Publisher& getForceRacecarVisionCloseOrOpenPublisher() { return force_racecar_vision_open_or_close_pub_; }
+    ros::Publisher &getForceRacecarVisionCloseOrOpenPublisher() { return force_racecar_vision_open_or_close_pub_; }
 
-    ros::Publisher& getForceRacecarNavStopOrMovePublisher() { return force_racecar_nav_stop_or_move_pub_; }
+    ros::Publisher &getForceRacecarNavStopOrMovePublisher() { return force_racecar_nav_stop_or_move_pub_; }
 
-    ros::Publisher& getTrafficLightStatusPublisher()
+    ros::Publisher &getTrafficLightStatusPublisher()
     {
         return traffic_light_status_publisher_;
     }
 
-    geometry_msgs::PoseStamped& getRvizSetPose()
+    geometry_msgs::PoseStamped &getRvizSetPose()
     {
         return this->rviz_set_pose_;
     }
 
-    visionmsg::arucostatus& GetCurrentArucoStatusMsg()
+    visionmsg::arucostatus &GetCurrentArucoStatusMsg()
     {
         return aruco_status_msg_;
     }
@@ -88,22 +90,22 @@ public:
         return racecar_src_image_;
     }
 
-    geometry_msgs::PoseWithCovarianceStamped& getRacecarCurrentCartoPose()
+    geometry_msgs::PoseWithCovarianceStamped &getRacecarCurrentCartoPose()
     {
         return racecar_current_pose_;
     }
 
-    ros::Publisher& getAckermanCmdVelPublisher()
+    ros::Publisher &getAckermanCmdVelPublisher()
     {
         return ackerman_cmd_vel_pub_;
     }
 
-    ros::Publisher& getCloseSelfNavigationPublisher()
+    ros::Publisher &getCloseSelfNavigationPublisher()
     {
         return close_self_nav_pub_;
     }
 
-    ros::Publisher& getIsUsingNavigationPublisher()
+    ros::Publisher &getIsUsingNavigationPublisher()
     {
         return is_naving_pub_;
     }
@@ -113,22 +115,23 @@ public:
     void SubRacecarSrcImageCallback(const sensor_msgs::CompressedImage::ConstPtr &msg);
     void SubArucoStatusCallback(const visionmsg::arucostatus::ConstPtr &msg);
     void SubRacecarCurrentCartoPose(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg);
-	/*********************
-	** Logging
-	**********************/
-	enum LogLevel {
-	         Debug,
-	         Info,
-	         Warn,
-	         Error,
-	         Fatal
-	 };
+    /*********************
+    ** Logging
+    **********************/
+    enum LogLevel
+    {
+        Debug,
+        Info,
+        Warn,
+        Error,
+        Fatal
+    };
 
-	QStringListModel* loggingModel() { return &logging_model; }
-	void log( const LogLevel &level, const std::string &msg);
+    QStringListModel *loggingModel() { return &logging_model; }
+    void log(const LogLevel &level, const std::string &msg);
 
 Q_SIGNALS:
-	void loggingUpdated();
+    void loggingUpdated();
     void rosShutdown();
     void rvizGetPose();
     void getRacecarImageSignal();
@@ -136,9 +139,9 @@ Q_SIGNALS:
     void getRacecarCurrentCartoPoseSignal();
 
 private:
-	int init_argc;
-	char** init_argv;
-	ros::Publisher chatter_publisher;
+    int init_argc;
+    char **init_argv;
+    ros::Publisher chatter_publisher;
     ros::Publisher cancel_current_nav_goal_pub_;
 
     ros::Publisher force_racecar_nav_stop_or_move_pub_;
@@ -163,6 +166,6 @@ private:
     cv::Mat racecar_src_image_;
 };
 
-}  // namespace racecar_cloud
+} // namespace racecar_cloud
 
 #endif /* racecar_cloud_QNODE_HPP_ */

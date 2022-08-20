@@ -25,30 +25,32 @@
 #include <ackermann_msgs/AckermannDrive.h>
 #include <QThread>
 
-namespace racecar_cloud {
+namespace racecar_cloud
+{
 
-class MainWindow : public QMainWindow {
-Q_OBJECT
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
 
 public:
-	MainWindow(int argc, char** argv, QWidget *parent = 0);
-	~MainWindow();
+    MainWindow(int argc, char **argv, QWidget *parent = 0);
+    ~MainWindow();
 
-	void ReadSettings(); // Load up qt program settings at startup
-	void WriteSettings(); // Save qt program settings when closing
+    void ReadSettings();  // Load up qt program settings at startup
+    void WriteSettings(); // Save qt program settings when closing
 
-	void closeEvent(QCloseEvent *event); // Overloaded function
-	void showNoMasterMessage();
-    void initAllPoints(const std::string& param_file_path);
+    void closeEvent(QCloseEvent *event); // Overloaded function
+    void showNoMasterMessage();
+    void initAllPoints(const std::string &param_file_path);
     void updateCurrentPoints();
 
 public Q_SLOTS:
-	/******************************************
-	** Auto-connections (connectSlotsByName())
-	*******************************************/
-	void on_actionAbout_triggered();
-	void on_button_connect_clicked(bool check );
-	void on_checkbox_use_environment_stateChanged(int state);
+    /******************************************
+    ** Auto-connections (connectSlotsByName())
+    *******************************************/
+    void on_actionAbout_triggered();
+    void on_button_connect_clicked(bool check);
+    void on_checkbox_use_environment_stateChanged(int state);
     void on_pushButtonGoToStartPoint_clicked(bool check);
     void on_pushButtonGoToLoadingPoint_clicked(bool check);
     void on_pushButtonGoToUnLoadingPoint_clicked(bool check);
@@ -89,9 +91,8 @@ public Q_SLOTS:
     void pushButtonSendAckermanCmd_STOP_Callback();
 private slots:
 
-
 private:
-	Ui::MainWindowDesign ui;
+    Ui::MainWindowDesign ui;
 
     cv::Point3d start_point_;
     cv::Point3d loading_point_;
@@ -100,9 +101,9 @@ private:
     cv::Point3d second_rest_point_;
 
     std::string points_params_yaml_path_;
-	QNode qnode;
+    QNode qnode;
 };
 
-}  // namespace racecar_cloud
+} // namespace racecar_cloud
 
 #endif // racecar_cloud_MAIN_WINDOW_H
