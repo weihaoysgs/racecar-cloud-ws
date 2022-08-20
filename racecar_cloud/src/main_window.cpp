@@ -735,7 +735,7 @@ void MainWindow::pushButtonSendAckermanCmd_W_Callback()
 void MainWindow::pushButtonSendAckermanCmd_A_Callback()
 {
     ackermann_msgs::AckermannDrive ack_cmd_msg;
-    ack_cmd_msg.speed = static_cast<float>(0.80);
+    ack_cmd_msg.speed = static_cast<float>(1.80);
     ack_cmd_msg.steering_angle = 60.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "Move A!" << std::endl;
@@ -751,7 +751,7 @@ void MainWindow::pushButtonSendAckermanCmd_S_Callback()
 void MainWindow::pushButtonSendAckermanCmd_D_Callback()
 {
     ackermann_msgs::AckermannDrive ack_cmd_msg;
-    ack_cmd_msg.speed = static_cast<float>(0.80);
+    ack_cmd_msg.speed = static_cast<float>(1.80);
     ack_cmd_msg.steering_angle = -60.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "Move D!" << std::endl;
@@ -770,26 +770,26 @@ void MainWindow::pushButtonSendAckermanCmd_Z_Callback()
 {
     // 向右转角度为负数 向左转角度为正数
     ackermann_msgs::AckermannDrive ack_cmd_msg;
-    ack_cmd_msg.speed = static_cast<float>(-0.6);
+    ack_cmd_msg.speed = static_cast<float>(-1.6);
     ack_cmd_msg.steering_angle = 60.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "Z!" << std::endl;
-    QThread::msleep(500);
-    ack_cmd_msg.speed = static_cast<float>(0.8);
-    ack_cmd_msg.steering_angle = -70.0;
-    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+//    QThread::msleep(500);
+//    ack_cmd_msg.speed = static_cast<float>(0.8);
+//    ack_cmd_msg.steering_angle = -70.0;
+//    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
 }
 void MainWindow::pushButtonSendAckermanCmd_C_Callback()
 {
     ackermann_msgs::AckermannDrive ack_cmd_msg;
-    ack_cmd_msg.speed = static_cast<float>(-0.6);
+    ack_cmd_msg.speed = static_cast<float>(-1.6);
     ack_cmd_msg.steering_angle = -60.0;
     qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
     std::cout << "Z!" << std::endl;
-    QThread::msleep(500);
-    ack_cmd_msg.speed = static_cast<float>(0.8);
-    ack_cmd_msg.steering_angle = 70.0;
-    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
+//    QThread::msleep(500);
+//    ack_cmd_msg.speed = static_cast<float>(0.8);
+//    ack_cmd_msg.steering_angle = 70.0;
+//    qnode.getAckermanCmdVelPublisher().publish(ack_cmd_msg);
 }
 void MainWindow::pushButtonSendAckermanCmd_CTRL_Callback()
 {
